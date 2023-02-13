@@ -14,7 +14,7 @@ class LoginAndRegistrationViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Email"
-        textField.layer.cornerRadius = 40
+        textField.layer.cornerRadius = 30
         textField.layer.masksToBounds = true
         textField.setLeftPaddingPoints(20)
         textField.setRightPaddingPoints(20)
@@ -27,7 +27,7 @@ class LoginAndRegistrationViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Password at least 8 characters"
-        textField.layer.cornerRadius = 40
+        textField.layer.cornerRadius = 30
         textField.layer.masksToBounds = true
         textField.makeGlassEffectOnView()
         textField.setLeftPaddingPoints(20)
@@ -40,17 +40,28 @@ class LoginAndRegistrationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor(named: "ButtonsColor")
         button.setTitle("Login", for: .normal)
-        button.layer.cornerRadius = 40
+        button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
         return button
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
+    private let registerButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor(named: "ButtonsColor")
+        button.setTitle("Register", for: .normal)
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
+        return button
+    }()
+    
+    // MARK: Setting up buttons and textFields stackView
+    private lazy var buttonsAndTextFieldsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton, registerButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.setCustomSpacing(16, after: emailTextField)
+        stackView.distribution = .fillEqually
+        stackView.spacing = 16
         stackView.setCustomSpacing(32, after: passwordTextField)
         return stackView
     }()
@@ -59,7 +70,7 @@ class LoginAndRegistrationViewController: UIViewController {
         super.viewDidLoad()
         setBackground()
         view.backgroundColor = nil
-        view.addSubview(stackView)
+        view.addSubview(buttonsAndTextFieldsStackView)
         setupConstraints()
         
         // Do any additional setup after loading the view.
@@ -83,12 +94,12 @@ private extension LoginAndRegistrationViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            buttonsAndTextFieldsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonsAndTextFieldsStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            stackView.widthAnchor.constraint(equalToConstant: 282),
+            buttonsAndTextFieldsStackView.widthAnchor.constraint(equalToConstant: 300),
             
-            stackView.heightAnchor.constraint(equalToConstant: view.frame.height/3)
+            buttonsAndTextFieldsStackView.heightAnchor.constraint(equalToConstant: view.frame.height/3)
         ])
     }
 }
