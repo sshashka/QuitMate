@@ -13,9 +13,9 @@ extension UIView {
         
         let visualEffect = UIVisualEffectView(effect: blurEffect)
         visualEffect.frame = self.bounds
-//        visualEffect.translatesAutoresizingMaskIntoConstraints = false
         visualEffect.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         visualEffect.isUserInteractionEnabled = false
+        
         self.insertSubview(visualEffect, at: 0)
         self.backgroundColor = .clear
     }
