@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 
-class AutentificationViewController: UIViewController {
+final class AutentificationViewController: UIViewController {
     // MARK: Creating UI elements
     private let emailTextField: UITextField = {
         let textField = UITextField()
@@ -24,7 +24,7 @@ class AutentificationViewController: UIViewController {
         textField.setLeftPaddingPoints(20)
         textField.setRightPaddingPoints(20)
         textField.backgroundColor = .clear
-        textField.makeGlassEffectOnView()
+        textField.makeGlassEffectOnView(style: .extraLight)
         return textField
     }()
     
@@ -35,7 +35,7 @@ class AutentificationViewController: UIViewController {
         textField.layer.cornerRadius = 26
         textField.layer.masksToBounds = true
         textField.isSecureTextEntry = true
-        textField.makeGlassEffectOnView()
+        textField.makeGlassEffectOnView(style: .extraLight)
         textField.setLeftPaddingPoints(20)
         textField.setRightPaddingPoints(20)
         return textField
@@ -105,7 +105,7 @@ class AutentificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBackground()
+        view.setBackground()
         view.backgroundColor = nil
         view.addSubview(buttonsAndTextFieldsStackView)
         setupConstraints()
@@ -125,19 +125,6 @@ class AutentificationViewController: UIViewController {
 
 private extension AutentificationViewController {
     // MARK: Setting up view
-    func setBackground() {
-        let topColor = UIColor(named: "TopColor")?.cgColor
-        let bottomColot = UIColor(named: "BottomColor")?.cgColor
-        
-        let gradientLayer = CAGradientLayer()
-        
-        gradientLayer.colors = [topColor, bottomColot]
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = self.view.bounds
-        
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
     func setupConstraints() {
         NSLayoutConstraint.activate([
             buttonsAndTextFieldsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -171,19 +158,19 @@ private extension AutentificationViewController {
 }
 
 
-struct ViewControllerRepresentable: UIViewControllerRepresentable {
-    
+struct AuthViewControllerRepresentable: UIViewControllerRepresentable {
+
     func makeUIViewController(context: Context) -> some UIViewController {
         return AutentificationViewController()
     }
-    
+
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
+
     }
 }
 
-struct ViewController_Preview: PreviewProvider {
+struct AuthViewController_Preview: PreviewProvider {
     static var previews: some View {
-        ViewControllerRepresentable()
+        AuthViewControllerRepresentable()
     }
 }

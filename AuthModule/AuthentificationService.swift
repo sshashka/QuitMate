@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-class AuthentificationService {
+final class AuthentificationService {
     func registerWithEmailAndPassword(email: String, password: String) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             
