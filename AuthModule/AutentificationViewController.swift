@@ -11,6 +11,8 @@ import SwiftUI
 
 
 final class AutentificationViewController: UIViewController {
+    
+    var presenter: AuthentificationModulePresenterProtocol?
     // MARK: Creating UI elements
     private let emailTextField: UITextField = {
         let textField = UITextField()
@@ -113,6 +115,7 @@ final class AutentificationViewController: UIViewController {
         emailTextField.addTarget(self, action: #selector(emailTextDidChange), for: .allEditingEvents)
         passwordTextField.addTarget(self, action: #selector(passwordTextDidChange), for: .allEditingEvents)
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(registerButtonDidTap), for: .touchUpInside)
         
         formIsValid
             .assign(to: \.isEnabled, on: loginButton)
@@ -137,7 +140,15 @@ private extension AutentificationViewController {
     }
     // MARK: Adding selectors to UI
     @objc func loginButtonDidTap() {
-        print("Bruh")
+        guard let emailText = emailTextField.text else { return }
+        guard let passwordText = passwordTextField.text else { return }
+        presenter?.didSelectLoginWithEmailLogin(email: emailText, password: passwordText)
+    }
+    
+    @objc func registerButtonDidTap() {
+        guard let emailText = emailTextField.text else { return }
+        guard let passwordText = passwordTextField.text else { return }
+        presenter?.didSelectRegisterWithEmailLogin(email: emailText, password: passwordText)
     }
     
     @objc func emailTextDidChange(_ sender: UITextField) {
@@ -154,6 +165,16 @@ private extension AutentificationViewController {
     
     func passwordIsValid(password: String) -> Bool {
         return password.count >= 8
+    }
+}
+
+extension AutentificationViewController: AutentificationViewControllerProtocol {
+    func didReceiveErrorFromFirebaseAuth(error: String) {
+        let alert = UIAlertController(title: "OOPS", message: error, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        
+        present(alert, animated: true)
     }
 }
 
