@@ -10,7 +10,7 @@ import UIKit
 extension UILabel {
     // Makes font which is being used around a project
     func setHelveticaBoldFont(size: CGFloat) {
-        let font = UIFont(name: "HelveticaNeue-Bold", size: size)
+        let font = UIFont(name: "HelveticaNeue-CondensedBlack", size: size)
         self.font = font
     }
 }
