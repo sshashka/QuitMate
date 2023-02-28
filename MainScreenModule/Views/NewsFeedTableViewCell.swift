@@ -8,6 +8,9 @@
 import UIKit
 
 final class NewsFeedTableViewCell: UITableViewCell {
+    enum NewsFeedTableViewCellLayouts {
+        case leftToRight, rightToLeft
+    }
     static let identifier = "NewsFeedTableView"
     // MARK: Creating ui elements
     
@@ -33,10 +36,10 @@ final class NewsFeedTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setHelveticaBoldFont(size: 12)
-        label.numberOfLines = 0
+        label.numberOfLines = 5
         return label
     }()
-    
+    // MARK: Creating stackviews
     private lazy var labelsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [arcticleHeadingLabel, articlePreviewLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,9 +48,8 @@ final class NewsFeedTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    //MARK: Creating stackviews
     private lazy var rootStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [articleImageView, labelsStackView])
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
@@ -57,7 +59,6 @@ final class NewsFeedTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        self.makeGlassEffectOnView(style: .light)
         self.backgroundColor = .clear
         contentView.addSubview(rootStackView)
         setupConstraints()
@@ -67,10 +68,21 @@ final class NewsFeedTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setData(articleImage: UIImage, aricleHeading: String, articlePreviewText: String) {
-        articleImageView.image = articleImage
-        arcticleHeadingLabel.text = aricleHeading
-        articlePreviewLabel.text = articlePreviewText
+    func setData(news: MainScreenNewsModuleModel) {
+        articleImageView.image = UIImage(named: "Tokyo")
+        arcticleHeadingLabel.text = news.title
+        articlePreviewLabel.text = news.content
+    }
+    
+    
+    func setLayout(layout: NewsFeedTableViewCellLayouts) {
+        let subviews = [articleImageView, labelsStackView]
+        switch layout {
+        case .leftToRight:
+            let _ = subviews.map { rootStackView.addArrangedSubview($0) }
+        case .rightToLeft:
+            let _ = subviews.reversed().map { rootStackView.addArrangedSubview($0) }
+        }
     }
 }
 

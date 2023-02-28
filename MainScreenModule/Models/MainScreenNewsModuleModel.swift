@@ -8,8 +8,9 @@
 import Foundation
 
 typealias MainScreenNews = [MainScreenNewsModuleModel]
-
-struct MainScreenNewsModuleModel: Codable {
+// swiftlint:disable identifier_name
+struct MainScreenNewsModuleModel: Codable, Hashable {
+    let id = UUID()
     let source: Source
     let author: String
     let title, description: String
@@ -17,6 +18,14 @@ struct MainScreenNewsModuleModel: Codable {
     let urlToImage: String
     let publishedAt: String
     let content: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: MainScreenNewsModuleModel, rhs: MainScreenNewsModuleModel) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct Source: Codable {

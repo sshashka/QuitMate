@@ -8,72 +8,73 @@
 import UIKit
 import SwiftUI
 
+enum MainScreenNewsTableViewSections {
+    case main
+}
+
 final class MainScreenNewsView: UIViewController {
+    var presenter: MainScreenNewsViewPresenterProtocol?
+    private var news: MainScreenNews?
+    private lazy var snapshot = NSDiffableDataSourceSnapshot<MainScreenNewsTableViewSections, MainScreenNewsModuleModel>()
     
-    private let infoLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Info"
-        label.backgroundColor = .clear
-        label.setHelveticaBoldFont(size: 22)
-        label.textAlignment = .center
-        return label
-    }()
+    private lazy var dataSource =  UITableViewDiffableDataSource<MainScreenNewsTableViewSections,MainScreenNewsModuleModel>(
+        tableView: tableView,
+        cellProvider: {
+            (tableView, indexPath, item) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: NewsFeedTableViewCell.identifier,
+                for: indexPath
+            ) as? NewsFeedTableViewCell
+            guard let cell = cell else { return UITableViewCell() }
+            cell.setData(news: item)
+            indexPath.row % 2 == 0 ? cell.setLayout(layout: .rightToLeft) : cell.setLayout(layout: .leftToRight)
+            
+            return cell
+        }
+    )
     
+    // MARK: Creating UI elements
     private let tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(NewsFeedTableViewCell.self, forCellReuseIdentifier: NewsFeedTableViewCell.identifier)
-        return tv
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(NewsFeedTableViewCell.self, forCellReuseIdentifier: NewsFeedTableViewCell.identifier)
+        tableView.separatorColor = .clear
+        return tableView
     }()
     
-    private lazy var rootStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [infoLabel, tableView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = Constants.basicStackViewSpacing
-        return stackView
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(rootStackView)
+        view.addSubview(tableView)
         view.makeGlassEffectOnView(style: .light)
         view.backgroundColor = .white.withAlphaComponent(0.3)
         view.layer.cornerRadius = 26
         view.layer.masksToBounds = true
-        view.layer.shadowColor = UIColor.clear.cgColor
-        
+        //        view.addGlow(color: .white, radius: 10)
         tableView.delegate = self
-        tableView.dataSource = self
+//        tableView.dataSource = self
         tableView.backgroundColor = .clear
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.getNews(for: 1)
     }
 }
 
 private extension MainScreenNewsView {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            rootStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            rootStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            rootStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            rootStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.commonLayoutConstant),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }
 
-extension MainScreenNewsView: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsFeedTableViewCell.identifier, for: indexPath) as? NewsFeedTableViewCell
-        guard let cell = cell else { return UITableViewCell() }
-        cell.setData(articleImage: UIImage(named: "Tokyo")!, aricleHeading: "I love to smack some ass", articlePreviewText: "Fuck you nigga nigga nigga nigga nigga nigga nigga nigga")
-        return cell
-    }
+extension MainScreenNewsView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
@@ -81,6 +82,16 @@ extension MainScreenNewsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         print(indexPath)
+    }
+}
+
+extension MainScreenNewsView: MainScreenNewsViewProtocol {
+    func showNews(news: MainScreenNews) {
+        
+        snapshot.appendSections([.main])
+        snapshot.appendItems(news, toSection: .main)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -95,7 +106,7 @@ struct MainScreenNewsViewControllerRepresentable: UIViewControllerRepresentable 
     }
 }
 
-struct MainScreenNewsViewController_Preview: PreviewProvider {
+struct MainScreenNewsViewControllerPreview: PreviewProvider {
     static var previews: some View {
         MainScreenNewsViewControllerRepresentable()
     }

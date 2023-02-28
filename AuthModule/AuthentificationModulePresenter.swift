@@ -27,7 +27,14 @@ class AuthentificationModulePresenter: AuthentificationModulePresenterProtocol {
     }
     
     func didSelectLoginWithEmailLogin(email: String, password: String) {
-        
+        authentificationService.didSelectLoginWithEmailLogin(email: email, password: password) { [weak self] result in
+            switch result {
+            case .success:
+                fatalError("success is not implemented")
+            case .failure(let reason):
+                self?.view?.didReceiveErrorFromFirebaseAuth(error: reason)
+            }
+        }
     }
     
     func didSelectRegisterWithEmailLogin(email: String, password: String) {

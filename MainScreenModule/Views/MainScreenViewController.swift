@@ -35,8 +35,9 @@ private extension MainScreenViewController {
     }
     
     func showNewsView() {
-        let newsView = MainScreenNewsView()
+        let newsView = MainScreenNewsView.module
         newsView.isModalInPresentation = true
+        newsView.view.layer.shadowColor = UIColor.white.cgColor
         if let sheet = newsView.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.largestUndimmedDetentIdentifier = .medium
@@ -51,9 +52,9 @@ private extension MainScreenViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             timerView.view.topAnchor.constraint(equalTo: view.topAnchor),
-            timerView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            timerView.view.heightAnchor.constraint(equalToConstant: view.frame.height/2),
-            timerView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            timerView.view.heightAnchor.constraint(equalToConstant: view.frame.height/2 - 50),
+            timerView.view.widthAnchor.constraint(equalToConstant: view.frame.width - 100),
+            timerView.view.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
@@ -69,7 +70,7 @@ struct ViewControllerRepresentable: UIViewControllerRepresentable {
     }
 }
 
-struct ViewController_Preview: PreviewProvider {
+struct ViewControllerPreview: PreviewProvider {
     static var previews: some View {
         ViewControllerRepresentable()
     }

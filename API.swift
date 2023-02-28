@@ -9,7 +9,7 @@ import Foundation
 
 class NewsApi {
     let baseURL = "https://newsapi.org/v2/"
-    let token = "apiKey=6a275ba7b8684adaac457ff02bedd9b6"
+    let token = "&apiKey=6a275ba7b8684adaac457ff02bedd9b6"
     let standartPageSize = 10
 }
 

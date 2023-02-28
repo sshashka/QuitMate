@@ -190,7 +190,7 @@ struct AuthViewControllerRepresentable: UIViewControllerRepresentable {
     }
 }
 
-struct AuthViewController_Preview: PreviewProvider {
+struct AuthViewControllerPreview: PreviewProvider {
     static var previews: some View {
         AuthViewControllerRepresentable()
     }

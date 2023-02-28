@@ -12,7 +12,7 @@
 //FIRAuthErrorCodeUserDisabled    Indicates the user's account is disabled.
 //FIRAuthErrorCodeWrongPassword    Indicates the user attempted sign in with a wrong password.
 
-
+// swiftlint:disable all 
 //FIRAuthErrorCodeInvalidEmail    Indicates the email address is malformed.
 //FIRAuthErrorCodeEmailAlreadyInUse    Indicates the email used to attempt sign up already exists. Call fetchProvidersForEmail to check which sign-in mechanisms such user used, and prompt the user to sign in with one of those.
 //FIRAuthErrorCodeOperationNotAllowed    Indicates that email and password accounts are not enabled. Enable them in the Authentication section of the Firebase console.
@@ -57,10 +57,10 @@ final class AuthentificationService: AuthentificationServiceProtocol {
             if error != nil, let error = error as NSError? {
                 if let errorCode = AuthErrorCode.Code(rawValue: error.code) {
                     switch errorCode {
-                    case .invalidEmail:
-                        completion(.failure("OOPS... your email looks wrong, try again"))
                     case .emailAlreadyInUse:
                         completion(.failure("OOPS... looks like your email is already in use"))
+                    case .invalidEmail:
+                        completion(.failure("OOPS... your email looks wrong, try again"))
                     case .weakPassword:
                         completion(.failure("OOPS... looks like your password is weak"))
                     default:
