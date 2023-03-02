@@ -9,18 +9,18 @@ import UIKit
 import SwiftUI
 import FSCalendar
 
-class CalendarViewController: UIViewController {
+final class CalendarViewController: UIViewController {
     
-    let calendarView: FSCalendar = {
-        let view = FSCalendar()
+    let calendarView: UICalendarView = {
+        let view = UICalendarView()
         view.translatesAutoresizingMaskIntoConstraints = false
-//        view.makeGlassEffectOnView(style: .light)
-//        view.backgroundColor = .white.withAlphaComponent(0.3)
-//        view.layer.masksToBounds = true
-//        view.layer.borderColor = UIColor.white.cgColor
-//        view.layer.borderWidth = 5
-//        view.layer.cornerRadius = 25
-//        view.addNeonBordersToView(color: .white, radius: 25)
+        view.makeGlassEffectOnView(style: .light)
+        view.backgroundColor = .white.withAlphaComponent(0.3)
+        view.layer.masksToBounds = true
+        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderWidth = 5
+        view.layer.cornerRadius = 25
+        view.addNeonBordersToView(color: .white, radius: 25)
         return view
     }()
 
@@ -29,9 +29,6 @@ class CalendarViewController: UIViewController {
         view.addSubview(calendarView)
         view.setBackground()
         setupConstraints()
-    
-        calendarView.delegate = self
-        calendarView.dataSource = self
         
         // Do any additional setup after loading the view.
     }

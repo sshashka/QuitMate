@@ -12,9 +12,7 @@ enum NetworkErrors: Error {
     
 }
 
-protocol MainScreenModuleNetworkingProtocol: AnyObject {
-    func getNews(for page: Int, completion: @escaping(MainScreenNews) -> Void)
-}
+
 
 final class MainScreenModuleNetworking: NewsApi {
     func getLinkString(page: Int = 1) -> String {
@@ -26,6 +24,7 @@ extension MainScreenModuleNetworking: MainScreenModuleNetworkingProtocol {
     func getNews(for page: Int, completion: @escaping(MainScreenNews) -> Void) {
         let url = URL(string: getLinkString(page: page))
         guard let url = url else { return }
+        print(url)
         let urlRequest = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in

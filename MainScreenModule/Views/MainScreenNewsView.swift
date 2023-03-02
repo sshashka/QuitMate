@@ -13,8 +13,11 @@ enum MainScreenNewsTableViewSections {
 }
 
 final class MainScreenNewsView: UIViewController {
+    // MARK: Creating variables
     var presenter: MainScreenNewsViewPresenterProtocol?
     private var news: MainScreenNews?
+    private var newsCount = 0
+    private var isLoadingNews: Bool = false
     private lazy var snapshot = NSDiffableDataSourceSnapshot<MainScreenNewsTableViewSections, MainScreenNewsModuleModel>()
     
     private lazy var dataSource =  UITableViewDiffableDataSource<MainScreenNewsTableViewSections,MainScreenNewsModuleModel>(
@@ -50,9 +53,7 @@ final class MainScreenNewsView: UIViewController {
         view.backgroundColor = .white.withAlphaComponent(0.3)
         view.layer.cornerRadius = 26
         view.layer.masksToBounds = true
-        //        view.addGlow(color: .white, radius: 10)
         tableView.delegate = self
-//        tableView.dataSource = self
         tableView.backgroundColor = .clear
         setupConstraints()
     }
@@ -62,7 +63,7 @@ final class MainScreenNewsView: UIViewController {
         presenter?.getNews(for: 1)
     }
 }
-
+// MARK: Private methods
 private extension MainScreenNewsView {
     func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -72,8 +73,15 @@ private extension MainScreenNewsView {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    
+    func loadMoreNews() {
+        if !isLoadingNews {
+            isLoadingNews.toggle()
+            presenter?.getNewsForNextPage()
+        }
+    }
 }
-
+// MARK: UITableViewDelegate
 extension MainScreenNewsView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -81,17 +89,22 @@ extension MainScreenNewsView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print(indexPath)
+        if indexPath.row == newsCount - 1, !isLoadingNews {
+            loadMoreNews()
+        }
     }
 }
-
+// MARK: MainScreenNewsViewProtocol
 extension MainScreenNewsView: MainScreenNewsViewProtocol {
     func showNews(news: MainScreenNews) {
-        
-        snapshot.appendSections([.main])
+        if snapshot.numberOfSections == 0 {
+            snapshot.appendSections([.main])
+        }
         snapshot.appendItems(news, toSection: .main)
-        
         dataSource.apply(snapshot, animatingDifferences: true)
+        
+        newsCount += news.count
+        isLoadingNews = false
     }
 }
 

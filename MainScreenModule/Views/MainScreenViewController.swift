@@ -36,7 +36,7 @@ private extension MainScreenViewController {
     
     func showNewsView() {
         let newsView = MainScreenNewsView.module
-        newsView.isModalInPresentation = true
+        newsView.isModalInPresentation = false
         newsView.view.layer.shadowColor = UIColor.white.cgColor
         if let sheet = newsView.sheetPresentationController {
             sheet.detents = [.medium(), .large()]

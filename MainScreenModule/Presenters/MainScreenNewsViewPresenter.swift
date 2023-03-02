@@ -8,7 +8,7 @@
 import Foundation
 
 
-class MainScreenNewsViewPresenter: MainScreenNewsViewPresenterProtocol {
+final class MainScreenNewsViewPresenter: MainScreenNewsViewPresenterProtocol {
     let networkingService: MainScreenModuleNetworkingProtocol!
     private var page: Int = 1 {
         didSet {

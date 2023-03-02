@@ -16,7 +16,7 @@ protocol AuthentificationModulePresenterProtocol: AnyObject {
     func didSelectRegisterWithEmailLogin(email: String, password: String)
 }
 
-class AuthentificationModulePresenter: AuthentificationModulePresenterProtocol {
+final class AuthentificationModulePresenter: AuthentificationModulePresenterProtocol {
     
     weak var view: AutentificationViewControllerProtocol?
     let authentificationService: AuthentificationServiceProtocol!

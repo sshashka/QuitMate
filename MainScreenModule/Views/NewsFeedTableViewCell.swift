@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class NewsFeedTableViewCell: UITableViewCell {
     enum NewsFeedTableViewCellLayouts {
@@ -19,7 +20,7 @@ final class NewsFeedTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -59,7 +60,7 @@ final class NewsFeedTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .clear
+        self.backgroundColor = isSelected ? .white.withAlphaComponent(0.3) : .clear 
         contentView.addSubview(rootStackView)
         setupConstraints()
     }
@@ -69,7 +70,7 @@ final class NewsFeedTableViewCell: UITableViewCell {
     }
     
     func setData(news: MainScreenNewsModuleModel) {
-        articleImageView.image = UIImage(named: "Tokyo")
+        articleImageView.sd_setImage(with: URL(string: news.urlToImage))
         arcticleHeadingLabel.text = news.title
         articlePreviewLabel.text = news.content
     }

@@ -23,25 +23,28 @@ struct TimerView: View {
                 Spacer()
                 Text("12:34")
                     .foregroundColor(.black)
-                    .font(.system(size: 22, weight: .black, design: .rounded))
+                    .font(.system(size: 40, weight: .black, design: .rounded))
                     .padding(.top, 30)
+                
+                    .padding(30)
                 
                 Button(action: {
                     // Button action
                 }, label: {
                     Text("Button")
                 })
+                .frame(width: 150, height: 60)
                 .background(Color(Constants.greenButtonColor))
                 .foregroundColor(.white)
-                .cornerRadius(22)
-                .padding(EdgeInsets(top: 20, leading: 50, bottom: 20, trailing: 50))
+                .cornerRadius(30)
+                .shadow(radius: 10)
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
-
 }
+
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
