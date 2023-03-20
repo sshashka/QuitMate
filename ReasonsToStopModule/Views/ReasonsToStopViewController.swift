@@ -10,8 +10,9 @@ import SwiftUI
 
 //let ahaha = ["Nicotine addiction", "Stress", "Social situations", "Habits and routines", "Weight gain", "Boredom", "Lack of support", "Alcohol consumption", "Advertising", "Low mood", "Peer pressure", "Mental health conditions", "Lack of information", "Feeling overwhelmed", "Lack of alternatives", "The belief that smoking is enjoyable", "Access to cigarettes", "Lack of commitment", "Lack of self-efficacy", "Fear of failure"]
 
-final class ReasonsToStopView: UIViewController {
+final class ReasonsToStopViewController: UIViewController {
     private var reasonsToStopCollectionView: UICollectionView!
+    var presenter: ReasonsToStopPresenterProtocol?
     private let doneButton: UIButton = {
         let button = UIButton()
         button.setTitle("Done", for: .normal)
@@ -29,11 +30,8 @@ final class ReasonsToStopView: UIViewController {
         return stackView
     }()
     
-    private var selectedItems = Set<Int>() {
-        didSet {
-            doneButton.isEnabled = selectedItems.count >= 3 ? true : false
-        }
-    }
+    private var selectedItems = Set<Int>()
+    private var reasonsToStopArray: [String] = []
     
 
     override func viewDidLoad() {
@@ -45,7 +43,7 @@ final class ReasonsToStopView: UIViewController {
     }
 }
 
-private extension ReasonsToStopView {
+private extension ReasonsToStopViewController {
     func setupLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(0.8))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -72,7 +70,8 @@ private extension ReasonsToStopView {
         reasonsToStopCollectionView.backgroundColor = .clear
         reasonsToStopCollectionView.allowsMultipleSelection = true
         reasonsToStopCollectionView.delegate = self
-
+        
+        presenter?.showArrayOfReasons()
 //        view.addSubview(reasonsToStopCollectionView)
     }
     
@@ -83,26 +82,34 @@ private extension ReasonsToStopView {
             rootStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.commonLayoutConstant),
             
-            doneButton.heightAnchor.constraint(equalToConstant: view.frame.height/15)
+            doneButton.heightAnchor.constraint(equalToConstant: view.frame.height/15),
+            // fix button width
+            doneButton.widthAnchor.constraint(equalToConstant: view.frame.width - 20)
         ])
     }
 }
 
-extension ReasonsToStopView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ReasonsToStopViewController: ReasonsToStopViewProtocol {
+    func showReasons(reasons: [String]) {
+        self.reasonsToStopArray = reasons
+        reasonsToStopCollectionView.reloadData()
+    }
+}
+
+extension ReasonsToStopViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReasonsToStopCollectionViewCell.identifier, for: indexPath) as? ReasonsToStopCollectionViewCell
         guard let cell = cell else { return UICollectionViewCell() }
-        let ahaha = ["Nicotine addiction", "Stress", "Social situations", "Habits and routines", "Weight gain", "Boredom"].sorted(by: >)
-        cell.setText(text: ahaha[indexPath.row])
+        cell.setText(text: reasonsToStopArray[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return reasonsToStopArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if selectedItems.count >= 3 {
+        if selectedItems.count >= 10 {
             return false
         }
         return true
@@ -126,7 +133,7 @@ extension ReasonsToStopView: UICollectionViewDataSource, UICollectionViewDelegat
 struct StopViewControllerRepresentable: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
-        return ReasonsToStopView()
+        return ReasonsToStopViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {

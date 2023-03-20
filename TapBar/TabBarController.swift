@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
         setTabBarAppearence()
     }
     func createTabBar() {
-        viewControllers = [generateVC(vc: ReasonsToStopView(), image: UIImage(systemName: "chart.xyaxis.line")!), UINavigationController(rootViewController: generateVC(vc: MainScreenViewController(), image: UIImage(systemName: "house")!)), generateVC(vc: CalendarViewController(), image: UIImage(systemName: "gear")!)]
+        viewControllers = [generateVC(vc: ReasonsToStopViewController.module, image: UIImage(systemName: "chart.xyaxis.line")!), UINavigationController(rootViewController: generateVC(vc: MainScreenViewController(), image: UIImage(systemName: "house")!))]
     }
 }
 
