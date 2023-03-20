@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
         setTabBarAppearence()
     }
     func createTabBar() {
-        viewControllers = [generateVC(vc: AutentificationViewController.module, image: UIImage(systemName: "chart.xyaxis.line")!), generateVC(vc: MainScreenViewController(), image: UIImage(systemName: "house")!), generateVC(vc: CalendarViewController(), image: UIImage(systemName: "gear")!)]
+        viewControllers = [generateVC(vc: ReasonsToStopView(), image: UIImage(systemName: "chart.xyaxis.line")!), UINavigationController(rootViewController: generateVC(vc: MainScreenViewController(), image: UIImage(systemName: "house")!)), generateVC(vc: CalendarViewController(), image: UIImage(systemName: "gear")!)]
     }
 }
 
@@ -38,7 +38,7 @@ private extension TabBarController {
         roundedLayer.path = beizerPath.cgPath
         roundedLayer.fillColor = UIColor.white.withAlphaComponent(0.7).cgColor
 
-        tabBar.itemPositioning = .automatic
+        tabBar.itemPositioning = .centered
         tabBar.itemWidth = width / 3
         tabBar.layer.insertSublayer(roundedLayer, at: 0)
         tabBar.tintColor = UIColor(named: Constants.greenButtonColor)
