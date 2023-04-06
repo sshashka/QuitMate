@@ -176,6 +176,15 @@ extension AutentificationViewController: AutentificationViewControllerProtocol {
         
         present(alert, animated: true)
     }
+    
+    func didRegisterSuccesfully(message: String) {
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true)
+    }
 }
 
 

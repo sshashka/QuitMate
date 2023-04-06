@@ -9,15 +9,17 @@ import Foundation
 
 protocol AutentificationViewControllerProtocol: AnyObject {
     func didReceiveErrorFromFirebaseAuth(error: String)
+    func didRegisterSuccesfully(message: String)
 }
 
 protocol AuthentificationModulePresenterProtocol: AnyObject {
+    var didSendEventClosure: ((AuthentificationModulePresenter.EventType) -> Void)? {get set}
     func didSelectLoginWithEmailLogin(email: String, password: String)
     func didSelectRegisterWithEmailLogin(email: String, password: String)
 }
 
 final class AuthentificationModulePresenter: AuthentificationModulePresenterProtocol {
-    
+    var didSendEventClosure: ((AuthentificationModulePresenter.EventType) -> Void)?
     weak var view: AutentificationViewControllerProtocol?
     let authentificationService: AuthentificationServiceProtocol!
     
@@ -30,7 +32,7 @@ final class AuthentificationModulePresenter: AuthentificationModulePresenterProt
         authentificationService.didSelectLoginWithEmailLogin(email: email, password: password) { [weak self] result in
             switch result {
             case .success:
-                fatalError("success is not implemented")
+                self?.didSendEventClosure?(.authentification)
             case .failure(let reason):
                 self?.view?.didReceiveErrorFromFirebaseAuth(error: reason)
             }
@@ -41,10 +43,14 @@ final class AuthentificationModulePresenter: AuthentificationModulePresenterProt
         authentificationService.didSelectRegisterWithEmailLogin(email: email, password: password) {[weak self] result in
             switch result {
             case .success:
-                fatalError("success is not implemented")
+                self?.view?.didRegisterSuccesfully(message: "You have successfully registered. Now tap login button to enter")
             case .failure(let reason):
                 self?.view?.didReceiveErrorFromFirebaseAuth(error: reason)
             }
         }
     }
+}
+
+extension AuthentificationModulePresenter {
+    enum EventType { case authentification }
 }

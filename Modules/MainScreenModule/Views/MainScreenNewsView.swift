@@ -42,6 +42,7 @@ final class MainScreenNewsView: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(NewsFeedTableViewCell.self, forCellReuseIdentifier: NewsFeedTableViewCell.identifier)
         tableView.separatorColor = .clear
+        tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
     

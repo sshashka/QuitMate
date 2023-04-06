@@ -49,11 +49,14 @@ final class AuthentificationService: AuthentificationServiceProtocol {
                     }
                 }
             }
+            else {
+                completion(.success)
+            }
         }
     }
     
     func didSelectRegisterWithEmailLogin(email: String, password: String, completion: @escaping(ResultOfAuthentification) -> Void) {
-        Auth.auth().createUser(withEmail: "MyEmail", password: "MyPassword") { authResult, error in
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if error != nil, let error = error as NSError? {
                 if let errorCode = AuthErrorCode.Code(rawValue: error.code) {
                     switch errorCode {
@@ -68,7 +71,7 @@ final class AuthentificationService: AuthentificationServiceProtocol {
                     }
                 }
             } else {
-                //no error
+                completion(.success)
             }
         }
     }
