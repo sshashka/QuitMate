@@ -19,4 +19,8 @@ extension UITextField {
         self.rightView = paddingView
         self.rightViewMode = .always
     }
+    
+    func setPlaceholderParameters(color: UIColor = .black, text: String) {
+        self.attributedPlaceholder = NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: color])
+    }
 }

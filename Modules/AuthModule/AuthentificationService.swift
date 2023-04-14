@@ -65,7 +65,7 @@ final class AuthentificationService: AuthentificationServiceProtocol {
                     case .invalidEmail:
                         completion(.failure("OOPS... your email looks wrong, try again"))
                     case .weakPassword:
-                        completion(.failure("OOPS... looks like your password is weak"))
+                        completion(.failure("OOPS... looks like your password is too weak"))
                     default:
                         completion(.failure("OOPS... looks like unknow error. Try again later"))
                     }

@@ -13,16 +13,19 @@ import SwiftUI
 final class AutentificationViewController: UIViewController {
     
     var presenter: AuthentificationModulePresenterProtocol?
+    private var gradientLayer = CAGradientLayer()
     // MARK: Creating UI elements
     private let emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Email"
+//        textField.placeholder = "Email"
+        textField.setPlaceholderParameters(text: "Email")
         textField.layer.cornerRadius = 26
         textField.layer.masksToBounds = true
         textField.keyboardType = .emailAddress
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
+        textField.textColor = .black
         textField.setLeftPaddingPoints(20)
         textField.setRightPaddingPoints(20)
         textField.backgroundColor = .clear
@@ -33,10 +36,12 @@ final class AutentificationViewController: UIViewController {
     private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Password at least 8 characters"
+//        textField.placeholder = "Password at least 8 characters"
+        textField.setPlaceholderParameters(text: "Password at least 8 characters")
         textField.layer.cornerRadius = 26
         textField.layer.masksToBounds = true
         textField.isSecureTextEntry = true
+        textField.textColor = .black
         textField.makeGlassEffectOnView(style: .extraLight)
         textField.setLeftPaddingPoints(20)
         textField.setRightPaddingPoints(20)
@@ -87,7 +92,7 @@ final class AutentificationViewController: UIViewController {
             }
             .replaceNil(with: false)
             .eraseToAnyPublisher()
-            
+        
     }
     
     private var passwordIsValid: AnyPublisher<Bool, Never> {
@@ -107,11 +112,11 @@ final class AutentificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setBackground()
+        view.setBackground(gradientLayer: gradientLayer)
         view.backgroundColor = nil
         view.addSubview(buttonsAndTextFieldsStackView)
         setupConstraints()
-
+        
         emailTextField.addTarget(self, action: #selector(emailTextDidChange), for: .allEditingEvents)
         passwordTextField.addTarget(self, action: #selector(passwordTextDidChange), for: .allEditingEvents)
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
@@ -123,6 +128,12 @@ final class AutentificationViewController: UIViewController {
         formIsValid
             .assign(to: \.isEnabled, on: registerButton)
             .store(in: &cancellables)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        view.setAppearanceColors(gradientLayer: gradientLayer)
     }
 }
 
@@ -189,13 +200,13 @@ extension AutentificationViewController: AutentificationViewControllerProtocol {
 
 
 struct AuthViewControllerRepresentable: UIViewControllerRepresentable {
-
+    
     func makeUIViewController(context: Context) -> some UIViewController {
         return AutentificationViewController()
     }
-
+    
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-
+        
     }
 }
 

@@ -12,7 +12,7 @@ final class MainScreenViewController: UIViewController {
     private let timerView: UIHostingController = UIHostingController(rootView: TimerView())
     
     private let newsView = MainScreenNewsView.module
-    
+    private let gradientLayer = CAGradientLayer()
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [timerView.view, newsView.view])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +23,7 @@ final class MainScreenViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setBackground()
+        view.setBackground(gradientLayer: gradientLayer)
         view.addSubview(timerView.view)
         addChild(newsView)
         view.addSubview(newsView.view)

@@ -5,6 +5,9 @@
 //  Created by Саша Василенко on 07.04.2023.
 //
 
+// Remove later
+import UIKit
+
 enum TabBarPages {
     case charts, home, setup
     
@@ -21,5 +24,14 @@ enum TabBarPages {
         }
     }
     
-    
+    func getImages() -> UIImage {
+        switch self {
+        case .charts:
+            return UIImage(systemName: "chart.xyaxis.line")!
+        case .home:
+            return UIImage(systemName: "house")!
+        case .setup:
+            return UIImage(systemName: "gear")!
+        }
+    }
 }

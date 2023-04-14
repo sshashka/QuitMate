@@ -19,19 +19,35 @@ extension UIView {
         self.insertSubview(visualEffect, at: 0)
         self.backgroundColor = .clear
     }
-    
-    func setBackground() {
-        let topColor = UIColor(named: "TopColor")?.cgColor
-        let bottomColot = UIColor(named: "BottomColor")?.cgColor
+    //
+    /// Changes backgrond gradient corresponding to appearance
+    /// - Parameters:
+    ///   - gradientLayer: CAGradientLayer to be used
+    func setAppearanceColors(gradientLayer: CAGradientLayer) {
+        let darkColors = [UIColor(named: "TopColorDark"), UIColor(named: "BottomColorDark")]
+        let lightColors = [UIColor(named: "TopColorLight"), UIColor(named: "BottomColorLight")]
+        if self.traitCollection.userInterfaceStyle == .light {
+            gradientLayer.colors = lightColors.compactMap {
+                $0?.cgColor
+            }
+        } else {
+            gradientLayer.colors = darkColors.compactMap {
+                $0?.cgColor
+            }
+        }
         
-        let gradientLayer = CAGradientLayer()
-        
-        gradientLayer.colors = [topColor, bottomColot]
+    }
+    //
+    /// Sets a backgrond gradient
+    /// - Parameters:
+    ///   - gradientLayer: CAGradientLayer to be inserted
+    func setBackground(gradientLayer: CAGradientLayer) {
+        setAppearanceColors(gradientLayer: gradientLayer)
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.frame = self.bounds
-        
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
+    
     
     func makeViewRounded() {
         self.layer.masksToBounds = true

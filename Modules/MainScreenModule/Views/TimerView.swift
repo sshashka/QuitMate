@@ -7,7 +7,31 @@
 
 import SwiftUI
 
+
 struct TimerView: View {
+    enum TimerViewUserDefaultsKeys: String {
+        case startOfTimerDate = "startOfTimerDate"
+    }
+    @State var dateToShow = DateComponents()
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    func showTimerDate() {
+        let startDate = UserDefaults.standard.object(forKey: TimerViewUserDefaultsKeys.startOfTimerDate.rawValue) as? Date
+        let currentDate = Date.now
+        dateToShow = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: startDate!, to: currentDate)
+    }
+    
+    func saveCurrentDate() {
+        let currnentDate = Date.now
+        UserDefaults.standard.set(currnentDate, forKey: TimerViewUserDefaultsKeys.startOfTimerDate.rawValue)
+    }
+    
+    func checkIfCurrentDatePresent() {
+        if UserDefaults.standard.object(forKey: TimerViewUserDefaultsKeys.startOfTimerDate.rawValue) as? Date == nil {
+            saveCurrentDate()
+        }
+        showTimerDate()
+    }
+    
     var body: some View {
         ZStack {
             Circle()
@@ -21,12 +45,15 @@ struct TimerView: View {
             
             VStack(spacing: 0) {
                 Spacer()
-                Text("12:34")
+                Text("\(dateToShow.toSting())")
                     .foregroundColor(.black)
                     .font(.system(size: 40, weight: .black, design: .rounded))
                     .padding(.top, 30)
-                
                     .padding(30)
+                    .onReceive(timer, perform: { _ in
+                        dateToShow.second? += 1
+                    })
+                    .onAppear(perform: checkIfCurrentDatePresent)
                 
                 Button(action: {
                     // Button action

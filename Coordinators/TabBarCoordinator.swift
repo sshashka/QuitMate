@@ -11,7 +11,7 @@ protocol TabBarCoordinatorProtocol: Coordinator {
     var tabBarController: UITabBarController { get }
 }
 
-class TabBarCoordinator: NSObject, Coordinator {
+final class TabBarCoordinator: NSObject, Coordinator {
     var finishDelegate: CoordinatorFinishDelegate?
     
     var navigationController: UINavigationController
@@ -28,7 +28,7 @@ class TabBarCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        let pages: [TabBarPages] = [.charts, .home]
+        let pages: [TabBarPages] = [.charts, .home, .setup]
         
         let controllers: [UINavigationController] = pages.map {getTabControllers(page: $0)}
         
@@ -37,7 +37,8 @@ class TabBarCoordinator: NSObject, Coordinator {
     
     private func getTabControllers(page: TabBarPages) -> UINavigationController {
         let navVC = UINavigationController()
-        
+        navVC.tabBarItem = UITabBarItem.init(title: nil, image: page.getImages(), selectedImage: nil)
+        navVC.setNavigationBarHidden(true, animated: false)
         switch page {
         case .charts:
             let chartsVC = ReasonsToStopViewController.module
@@ -46,7 +47,8 @@ class TabBarCoordinator: NSObject, Coordinator {
             let mainVC = MainScreenViewController()
             navVC.pushViewController(mainVC, animated: true)
         case .setup:
-            assert(false)
+            let settingsVC = SettingsViewController()
+            navVC.pushViewController(settingsVC, animated: true)
         }
         
         return navVC

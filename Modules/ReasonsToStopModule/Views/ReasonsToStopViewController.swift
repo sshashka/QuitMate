@@ -12,6 +12,7 @@ import SwiftUI
 
 final class ReasonsToStopViewController: UIViewController {
     private var reasonsToStopCollectionView: UICollectionView!
+    private var gradientLayer = CAGradientLayer()
     var presenter: ReasonsToStopPresenterProtocol?
     private let doneButton: UIButton = {
         let button = UIButton()
@@ -36,7 +37,7 @@ final class ReasonsToStopViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setBackground()
+        view.setBackground(gradientLayer: gradientLayer)
         setupCollectionView()
         view.addSubview(rootStackView)
         setupConstraints()

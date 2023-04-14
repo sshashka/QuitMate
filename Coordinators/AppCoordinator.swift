@@ -12,7 +12,7 @@ protocol AppCoordinatorProtocol: Coordinator {
     func showMainFlow()
 }
 
-class AppCoordinator: AppCoordinatorProtocol {
+final class AppCoordinator: AppCoordinatorProtocol {
     
     weak var finishDelegate: CoordinatorFinishDelegate? = nil
     
@@ -41,11 +41,9 @@ class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func start() {
-        showLogin()
+        //Add logics to determine if user is loggined
+        showMainFlow()
     }
-    
-    
-    
 }
 
 extension AppCoordinator: CoordinatorFinishDelegate {

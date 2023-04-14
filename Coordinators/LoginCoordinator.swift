@@ -12,7 +12,7 @@ protocol LoginCoordinatorProtocol: Coordinator {
 }
 
 
-class LoginCoordinator: LoginCoordinatorProtocol {
+final class LoginCoordinator: LoginCoordinatorProtocol {
     func showAuthentificationViewController() {
         let authentificationVC = AutentificationViewController.module
         authentificationVC.presenter?.didSendEventClosure = { [weak self] event in
