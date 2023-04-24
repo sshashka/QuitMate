@@ -6,21 +6,19 @@
 //
 
 import UIKit
-import SwiftUI
-
-//let ahaha = ["Nicotine addiction", "Stress", "Social situations", "Habits and routines", "Weight gain", "Boredom", "Lack of support", "Alcohol consumption", "Advertising", "Low mood", "Peer pressure", "Mental health conditions", "Lack of information", "Feeling overwhelmed", "Lack of alternatives", "The belief that smoking is enjoyable", "Access to cigarettes", "Lack of commitment", "Lack of self-efficacy", "Fear of failure"]
 
 final class ReasonsToStopViewController: UIViewController {
     private var reasonsToStopCollectionView: UICollectionView!
     private var gradientLayer = CAGradientLayer()
     var presenter: ReasonsToStopPresenterProtocol?
-    private let doneButton: UIButton = {
+    private var doneButton: UIButton = {
         let button = UIButton()
         button.setTitle("Done", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 18)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(named: Constants.greenButtonColor)
-        button.layer.cornerRadius = 26
+        button.backgroundColor = UIColor(named: Constants.purpleColor)
         button.isEnabled = false
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -37,7 +35,7 @@ final class ReasonsToStopViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setBackground(gradientLayer: gradientLayer)
+        view.setBackgroundColor()
         setupCollectionView()
         view.addSubview(rootStackView)
         setupConstraints()
@@ -45,17 +43,19 @@ final class ReasonsToStopViewController: UIViewController {
 }
 
 private extension ReasonsToStopViewController {
+    
+//    func setupNav
+    
     func setupLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .fractionalHeight(0.8))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(10)
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
-        
+                
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Constants.spacing, leading: 0, bottom: 0, trailing: 0)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -78,14 +78,10 @@ private extension ReasonsToStopViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            rootStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.commonLayoutConstant),
-            rootStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            rootStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            rootStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.commonLayoutConstant),
-            
-            doneButton.heightAnchor.constraint(equalToConstant: view.frame.height/15),
-            // fix button width
-            doneButton.widthAnchor.constraint(equalToConstant: view.frame.width - 20)
+            rootStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            rootStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.spacing),
+            rootStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.spacing),
+            rootStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.spacing)
         ])
     }
 }
@@ -128,22 +124,5 @@ extension ReasonsToStopViewController: UICollectionViewDataSource, UICollectionV
         let cell = collectionView.cellForItem(at: indexPath) as? ReasonsToStopCollectionViewCell
         guard let cell = cell else { return }
         cell.handleCellDeselectedState()
-    }
-}
-
-struct StopViewControllerRepresentable: UIViewControllerRepresentable {
-
-    func makeUIViewController(context: Context) -> some UIViewController {
-        return ReasonsToStopViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-
-    }
-}
-
-struct StopViewControllerPreview: PreviewProvider {
-    static var previews: some View {
-        StopViewControllerRepresentable()
     }
 }

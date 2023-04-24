@@ -47,7 +47,8 @@ final class TabBarCoordinator: NSObject, Coordinator {
             let mainVC = MainScreenViewController()
             navVC.pushViewController(mainVC, animated: true)
         case .setup:
-            let settingsVC = SettingsViewController()
+//            let settingsVC = SettingsViewController()
+            let settingsVC = MoodClassifierViewController()
             navVC.pushViewController(settingsVC, animated: true)
         }
         
@@ -55,8 +56,9 @@ final class TabBarCoordinator: NSObject, Coordinator {
     }
     
     private func setupTabBar(controllers tabController: [UIViewController]) {
-        tabBarController.tabBar.tintColor = UIColor(named: Constants.greenButtonColor)
-        tabBarController.tabBar.backgroundColor = .systemBackground
+        tabBarController.tabBar.tintColor = UIColor(named: Constants.purpleColor)
+        tabBarController.tabBar.backgroundColor = .clear
+        tabBarController.tabBar.makeGlassEffectOnView(style: .light)
         tabBarController.setViewControllers(tabController, animated: true)
         navigationController.viewControllers = [tabBarController]
     }

@@ -13,7 +13,7 @@ class ReasonsToStopCollectionViewCell: UICollectionViewCell {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.setHelveticaBoldFont(size: 20)
+        label.setPoppinsFont(size: 18, style: .bold)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -34,30 +34,21 @@ class ReasonsToStopCollectionViewCell: UICollectionViewCell {
     }
     
     func handleCellSelectedState() {
-        layer.cornerRadius = 20
-        layer.masksToBounds = false
-        
-        // Apply a shadow
-        layer.shadowRadius = 12.0
-        layer.shadowOpacity = 1.0
-        layer.shadowColor = UIColor.white.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        contentView.layer.borderColor = UIColor.clear.cgColor
+        contentView.backgroundColor = .systemGreen
     }
     
     func handleCellDeselectedState() {
-        layer.shadowColor = UIColor.clear.cgColor
-        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.backgroundColor = .systemGray
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layer.shadowPath = UIBezierPath(
-            roundedRect: bounds,
-            cornerRadius: 20
-        ).cgPath
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//
+//        layer.shadowPath = UIBezierPath(
+//            roundedRect: bounds,
+//            cornerRadius: 20
+//        ).cgPath
+//    }
     
 }
 
@@ -75,9 +66,9 @@ private extension ReasonsToStopCollectionViewCell {
         contentView.addSubview(label)
         contentView.makeGlassEffectOnView(style: .extraLight)
         contentView.layer.masksToBounds = true
-        contentView.layer.cornerRadius = 20
-        contentView.layer.borderWidth = 3
-        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.cornerRadius = 7
+//        contentView.layer.borderWidth = 3
+//        contentView.layer.borderColor = UIColor.white.cgColor
     }
     
     

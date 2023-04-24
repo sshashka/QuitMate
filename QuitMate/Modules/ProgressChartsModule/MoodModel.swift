@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct MoodModel {
-    let mood: String
-    let moodValue: Double
+struct MoodModel: Identifiable {
+    let id: UUID
+    let date: Date
+    let userScore: Int
 }

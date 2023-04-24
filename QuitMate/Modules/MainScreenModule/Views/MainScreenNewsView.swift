@@ -49,14 +49,7 @@ final class MainScreenNewsView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(tableView)
-        view.makeGlassEffectOnView(style: .light)
-        view.backgroundColor = .white.withAlphaComponent(0.3)
-        view.layer.cornerRadius = 26
-        view.layer.masksToBounds = true
-        tableView.delegate = self
-        tableView.backgroundColor = .clear
-        setupConstraints()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +59,24 @@ final class MainScreenNewsView: UIViewController {
 }
 // MARK: Private methods
 private extension MainScreenNewsView {
+    func setupView() {
+        view.addSubview(tableView)
+        view.makeGlassEffectOnView(style: .light)
+        view.backgroundColor = .white.withAlphaComponent(0.3)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 26
+//        let bezierPath = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSizeMake(26, 86))
+//        let bp = UIBezierPath(roundedRect: view.bounds, cornerRadius: 26)
+//        let maskLayer = CAShapeLayer()
+//        maskLayer.path = bezierPath.cgPath
+//        view.layer.mask = maskLayer
+        tableView.delegate = self
+        tableView.backgroundColor = .clear
+        setupConstraints()
+    }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.commonLayoutConstant),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.spacing),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)

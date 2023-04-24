@@ -27,7 +27,7 @@ final class NewsFeedTableViewCell: UITableViewCell {
     private let arcticleHeadingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setHelveticaBoldFont(size: 14)
+        label.setPoppinsFont(size: 14)
         label.textColor = UIColor(named: "ButtonsColor")
         label.numberOfLines = 2
         return label
@@ -36,7 +36,7 @@ final class NewsFeedTableViewCell: UITableViewCell {
     private let articlePreviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setHelveticaBoldFont(size: 12)
+        label.setPoppinsFont(size: 12)
         label.numberOfLines = 5
         return label
     }()
@@ -90,10 +90,10 @@ final class NewsFeedTableViewCell: UITableViewCell {
 private extension NewsFeedTableViewCell {
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.commonLayoutConstant),
-            rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.commonLayoutConstant),
-            rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.commonLayoutConstant),
-            rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.commonLayoutConstant)
+            rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
+            rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
+            rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing),
+            rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing)
         ])
     }
 }

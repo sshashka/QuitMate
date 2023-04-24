@@ -10,9 +10,14 @@ import UIKit
 protocol AppCoordinatorProtocol: Coordinator {
     func showLogin()
     func showMainFlow()
+    func showReasonsToStop()
 }
 
 final class AppCoordinator: AppCoordinatorProtocol {
+    func showReasonsToStop() {
+    
+    }
+    
     
     weak var finishDelegate: CoordinatorFinishDelegate? = nil
     
@@ -40,6 +45,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
         childCoordinators.append(mainCoordinator)
     }
     
+    func showMoodClassificationVC() {
+        let moodClassifierCoordinator = MoodClassifierCoordinator(navigationController)
+        moodClassifierCoordinator.finishDelegate = self
+        moodClassifierCoordinator.start()
+        childCoordinators.append(moodClassifierCoordinator)
+    }
+    
     func start() {
         //Add logics to determine if user is loggined
         showMainFlow()
@@ -53,6 +65,9 @@ extension AppCoordinator: CoordinatorFinishDelegate {
             navigationController.viewControllers.removeAll()
             showLogin()
         case .login:
+            navigationController.viewControllers.removeAll()
+            showMainFlow()
+        case .moodClassifier:
             navigationController.viewControllers.removeAll()
             showMainFlow()
         default:

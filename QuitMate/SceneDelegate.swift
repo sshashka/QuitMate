@@ -28,6 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //Seting up an SDWebImage
         SDWebImageHelper.shared.setupSDWebImage()
+        var age = 3
+        UserDefaults.standard.setValue(age, forKey: "UserAge")
+        print(UserDefaults.standard.integer(forKey: "UserAge"))
+        age = 25
+        UserDefaults.standard.set(age, forKey: "UserAge")
+        print(UserDefaults.standard.integer(forKey: "UserAge"))
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -70,7 +70,7 @@ final class AutentificationViewController: UIViewController {
     
     // MARK: Setting up buttons and textFields stackView
     private lazy var buttonsAndTextFieldsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton, registerButton])
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -112,8 +112,7 @@ final class AutentificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.setBackground(gradientLayer: gradientLayer)
-        view.backgroundColor = nil
+        view.setBackgroundColor()
         view.addSubview(buttonsAndTextFieldsStackView)
         setupConstraints()
         
@@ -130,11 +129,11 @@ final class AutentificationViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
-        view.setAppearanceColors(gradientLayer: gradientLayer)
-    }
+//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+//        view.setAppearanceColors(gradientLayer: gradientLayer)
+//    }
 }
 
 private extension AutentificationViewController {

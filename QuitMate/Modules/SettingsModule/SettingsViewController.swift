@@ -22,13 +22,19 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(settingsTableView)
         setupConstraints()
-        view.setBackground(gradientLayer: gradientLayer)
+        view.setBackgroundColor()
         view.makeGlassEffectOnView(style: .light)
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         let loguotButtonView = SettingsTableViewFooterView(frame: CGRect(x: 0, y: 0, width: settingsTableView.frame.width, height: 65))
         settingsTableView.tableFooterView = loguotButtonView
     }
+    
+//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+//        view.setAppearanceColors(gradientLayer: gradientLayer)
+//    }
 }
 
 private extension SettingsViewController {

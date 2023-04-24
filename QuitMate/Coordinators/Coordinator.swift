@@ -35,5 +35,5 @@ protocol CoordinatorFinishDelegate: AnyObject {
 }
 
 enum CoordinatorType {
-    case app, login, tabbar
+    case app, login, tabbar, moodClassifier
 }
